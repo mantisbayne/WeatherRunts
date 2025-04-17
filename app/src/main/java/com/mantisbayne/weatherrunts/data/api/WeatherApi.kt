@@ -9,6 +9,7 @@ interface WeatherApi {
     suspend fun getWeather(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("hourly") hourly: String = "precipitation_probability,apparent_temperature"
+        @Query("hourly") hourly: String = "precipitation_probability,apparent_temperature,temperature_2m",
+        @Query("temperature_unit") tempUnit: String = "fahrenheit"
     ): WeatherResponse
 }

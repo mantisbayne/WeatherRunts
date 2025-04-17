@@ -20,12 +20,14 @@ data class WeatherResponse(
 data class HourlyUnits(
     val time: String,
     @SerialName("precipitation_probability") val precipitationProbability: String,
-    @SerialName("apparent_temperature") val apparentTemperature: String
+    @SerialName("apparent_temperature") val apparentTemperature: String,
+    @SerialName("temperature_2m") val temperature2m: String
 )
 
 @Serializable
 data class HourlyData(
     val time: List<String>,
     @SerialName("precipitation_probability") val precipitationProbability: List<Int>,
-    @SerialName("apparent_temperature") val apparentTemperature: List<Double>
+    @SerialName("apparent_temperature") val apparentTemperature: List<Double>,
+    @SerialName("temperature_2m") val temperature2m: List<Double>
 )

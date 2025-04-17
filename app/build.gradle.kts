@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.paging.compose)
     implementation(libs.paging)
+    implementation(libs.play.services.location)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
