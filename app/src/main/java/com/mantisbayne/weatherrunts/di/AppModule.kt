@@ -2,6 +2,8 @@ package com.mantisbayne.weatherrunts.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mantisbayne.weatherrunts.data.api.WeatherApi
+import com.mantisbayne.weatherrunts.data.repository.WeatherRepository
+import com.mantisbayne.weatherrunts.domain.WeatherUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +40,17 @@ object AppModule {
     @Singleton
     fun provideWeatherApi(retrofit: Retrofit): WeatherApi {
         return retrofit.create(WeatherApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(weatherApi: WeatherApi): WeatherRepository {
+        return WeatherRepository(weatherApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherUseCase(repository: WeatherRepository): WeatherUseCase {
+        return WeatherUseCase(repository)
     }
 }

@@ -30,6 +30,8 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.WeatherRuntsTheme
 import com.mantisbayne.weatherrunts.data.model.WeatherResponse
+import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
+import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.WeatherUiState
 import com.mantisbayne.weatherrunts.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +45,7 @@ class MainActivity : ComponentActivity() {
             WeatherRuntsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val viewModel = hiltViewModel<WeatherViewModel>()
-                    val weatherData by viewModel.uiState.collectAsState()
+                    val uiState by viewModel.uiState.collectAsState()
                     val context = LocalContext.current
 
                     val launcher = rememberLauncherForActivityResult(
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     HomeScreenContent(
-                        weather = weatherData,
+                        uiState = uiState,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -79,8 +81,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreenContent(weather: WeatherUiState, modifier: Modifier = Modifier) {
+fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier = Modifier) {
 
+    when {
+        uiState.error
+    }
+}
+
+@Composable
+private fun FutureForecastList(forecastList: List<ForecastDisplayable>, modifier: Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -88,7 +97,6 @@ fun HomeScreenContent(weather: WeatherUiState, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // TODO finish updating with state
 
         LazyColumn(
             modifier
@@ -96,8 +104,7 @@ fun HomeScreenContent(weather: WeatherUiState, modifier: Modifier = Modifier) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            val weatherItems = weather?.hourly?.apparentTemperature ?: emptyList()
-            items(weatherItems) { weatherItem->
+            items(forecastList) { weatherItem ->
                 Text(text = weatherItem.toString())
             }
         }

@@ -1,7 +1,7 @@
 package com.mantisbayne.weatherrunts.viewmodel
 
 data class WeatherUiState(
-    val error: Boolean = false,
+    val error: String? = null,
     val loading: Boolean = false,
     val currentWeather: CurrentWeatherDisplayable = CurrentWeatherDisplayable(),
     val weatherList: WeatherListDisplayable = WeatherListDisplayable()

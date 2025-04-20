@@ -2,16 +2,15 @@ package com.mantisbayne.weatherrunts.viewmodel
 
 data class CurrentWeatherDisplayable(
     val feelsLike: String = "",
-    val topText: String = "",
-    val bottomText: String = ""
+    val temperature: String = ""
 )
 
 data class WeatherListDisplayable(
-    val items: List<ForcastDisplayable> = emptyList()
+    val items: List<ForecastDisplayable> = emptyList()
 )
 
 // TODO image
-data class ForcastDisplayable(
+data class ForecastDisplayable(
     val time: String = "",
-    val feelsLike: String = ""
+    val temperature: String = ""
 )

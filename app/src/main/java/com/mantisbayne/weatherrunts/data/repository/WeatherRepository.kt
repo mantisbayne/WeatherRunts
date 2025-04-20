@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.data.domain
+package com.mantisbayne.weatherrunts.data.repository
 
 import com.mantisbayne.weatherrunts.data.api.WeatherApi
 import com.mantisbayne.weatherrunts.data.model.WeatherResponse
