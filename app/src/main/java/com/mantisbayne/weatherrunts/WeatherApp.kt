@@ -4,10 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -18,14 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mantisbayne.weatherrunts.components.AppScreenLayout
 import com.mantisbayne.weatherrunts.home.HomeScreen
 import com.mantisbayne.weatherrunts.viewmodel.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherApp() {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
+    AppScreenLayout(
         topBar = { TopAppBar(title = { Text("Weather Runts") }) }
     ) { innerPadding ->
         val viewModel = hiltViewModel<WeatherViewModel>()
@@ -38,7 +36,7 @@ fun WeatherApp() {
             if (isGranted) {
                 viewModel.loadWeatherFromCurrentLocation()
             } else {
-                // fallback to manual input
+                // TODO fallback to manual input
             }
         }
 

@@ -2,7 +2,8 @@ package com.mantisbayne.weatherrunts.viewmodel
 
 data class CurrentWeatherDisplayable(
     val feelsLike: String = "",
-    val temperature: String = ""
+    val temperature: String = "",
+    val time: String = ""
 )
 
 data class WeatherListDisplayable(

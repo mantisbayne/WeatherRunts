@@ -29,7 +29,8 @@ class WeatherUiStateReducer @Inject constructor() {
     private fun currentWeather(feelsLike: Int?, temperature: Int?) =
         CurrentWeatherDisplayable(
             feelsLikeText(feelsLike),
-            temperature(temperature)
+            temperature(temperature),
+            getCurrentTimeFormatted()
         )
 
     private fun feelsLikeText(feelsLike: Int?) = feelsLike?.let {
@@ -40,16 +41,6 @@ class WeatherUiStateReducer @Inject constructor() {
         "Currently $it°F"
     } ?: "Unable to get current temperature, try again later"
 
-    private fun weatherList(forecastList: List<Int>) =
-        WeatherListDisplayable(
-            items = forecastList.map {
-                ForecastDisplayable(
-                    time = getCurrentTimeFormatted(),
-                    temperature = "$it°F"
-                )
-            }
-        )
-
     private fun getCurrentTimeFormatted(): String =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val currentTime = LocalTime.now()
@@ -59,4 +50,14 @@ class WeatherUiStateReducer @Inject constructor() {
             val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
             sdf.format(Date())
         }
+
+    private fun weatherList(forecastList: List<Int>) =
+        WeatherListDisplayable(
+            items = forecastList.map {
+                ForecastDisplayable(
+                    time = getCurrentTimeFormatted(),
+                    temperature = "$it°F"
+                )
+            }
+        )
 }
