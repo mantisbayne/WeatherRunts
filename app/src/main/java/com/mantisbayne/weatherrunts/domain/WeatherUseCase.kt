@@ -14,9 +14,9 @@ class WeatherUseCase @Inject constructor(private val repository: WeatherReposito
                 val feelsLike = response.hourly.apparentTemperature.firstOrNull()
                 emit(
                     WeatherDomainState(
-                        response.hourly.temperature2m,
-                        feelsLike,
-                        response.hourly.temperature2m.firstOrNull()
+                        response.hourly.temperature2m.map { it.toInt() },
+                        feelsLike?.toInt(),
+                        response.hourly.temperature2m.firstOrNull()?.toInt()
                     )
                 )
             } catch (e: Exception) {
@@ -28,8 +28,8 @@ class WeatherUseCase @Inject constructor(private val repository: WeatherReposito
 }
 
 data class WeatherDomainState(
-    val forecastList: List<Double> = emptyList(),
-    val feelsLike: Double? = 0.0,
-    val temperature: Double? = 0.0,
+    val forecastList: List<Int> = emptyList(),
+    val feelsLike: Int? = 0,
+    val temperature: Int? = 0,
     val error: String? = null
 )

@@ -26,21 +26,21 @@ class WeatherUiStateReducer @Inject constructor() {
     // TODO string resources
     private fun errorMessage(error: String?) = error ?: "An error occurred, please try again"
 
-    private fun currentWeather(feelsLike: Double?, temperature: Double?) =
+    private fun currentWeather(feelsLike: Int?, temperature: Int?) =
         CurrentWeatherDisplayable(
             feelsLikeText(feelsLike),
             temperature(temperature)
         )
 
-    private fun feelsLikeText(feelsLike: Double?) = feelsLike?.let {
+    private fun feelsLikeText(feelsLike: Int?) = feelsLike?.let {
         "Feels like: $it°F"
     } ?: "Unable to get feels like temperature, try again later"
 
-    private fun temperature(temperature: Double?) = temperature?.let {
+    private fun temperature(temperature: Int?) = temperature?.let {
         "Currently $it°F"
     } ?: "Unable to get current temperature, try again later"
 
-    private fun weatherList(forecastList: List<Double>) =
+    private fun weatherList(forecastList: List<Int>) =
         WeatherListDisplayable(
             items = forecastList.map {
                 ForecastDisplayable(

@@ -9,12 +9,20 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.WeatherRuntsTheme
-import com.mantisbayne.weatherrunts.data.model.WeatherResponse
 import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.WeatherUiState
 import com.mantisbayne.weatherrunts.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    HomeScreenContent(
+                    HomeScreen(
                         uiState = uiState,
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -81,15 +87,23 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier = Modifier) {
+fun HomeScreen(uiState: WeatherUiState, modifier: Modifier = Modifier) {
 
     when {
-        uiState.error
+        uiState.error.isNotBlank() -> ErrorScreen(uiState.error)
+        uiState.loading -> CircularProgressIndicator()
+        else -> HomeScreenContent(uiState, modifier)
     }
 }
 
 @Composable
-private fun FutureForecastList(forecastList: List<ForecastDisplayable>, modifier: Modifier) {
+fun ErrorScreen(error: String?) {
+    // TODO
+    Text("There was an error")
+}
+
+@Composable
+private fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -97,15 +111,42 @@ private fun FutureForecastList(forecastList: List<ForecastDisplayable>, modifier
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Box {
+            Column {
+                Text(uiState.currentWeather.temperature)
+                Text(uiState.currentWeather.feelsLike)
+            }
+        }
 
+        val forecastList = uiState.weatherList.items
         LazyColumn(
             modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(forecastList) { weatherItem ->
-                Text(text = weatherItem.toString())
+            items(forecastList) { forecastItem ->
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    elevation = CardDefaults.cardElevation()
+                ) {
+                    Row(
+                        modifier = modifier.fillMaxWidth()
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Text(forecastItem.time)
+                        Spacer(modifier.width(24.dp))
+                        Text(forecastItem.temperature)
+                    }
+                }
             }
         }
     }
