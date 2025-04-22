@@ -1,6 +1,8 @@
 package com.mantisbayne.weatherrunts.reducer
 
 import com.mantisbayne.weatherrunts.dateutils.DateUtils
+import com.mantisbayne.weatherrunts.domain.ForecastItem
+import com.mantisbayne.weatherrunts.domain.TimeOfDay
 import com.mantisbayne.weatherrunts.domain.WeatherDomainState
 import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
@@ -36,15 +38,21 @@ class WeatherUiStateReducer @Inject constructor() {
         "$it°F"
     } ?: "Unable to get current temperature, try again later"
 
-    private fun weatherList(forecastList: List<Int>) =
+    private fun weatherList(forecastList: List<ForecastItem>) =
         WeatherListDisplayable(
             items = forecastList.map {
                 ForecastDisplayable(
-                    time = DateUtils.formatToLocalTime(
-                        utcDateString = "2025-04-21T15:00"
-                    ),
-                    temperature = "$it°F"
+                    time = timeOfDay(it.timeOfDay),
+                    temperature = "${it.temperature}°F"
                 )
             }
         )
+
+    private fun timeOfDay(timeOfDay: TimeOfDay) =
+        when (timeOfDay) {
+            TimeOfDay.MORNING -> "Morning"
+            TimeOfDay.MIDDAY -> "Midday"
+            TimeOfDay.EVENING -> "Evening"
+            TimeOfDay.NIGHT -> "Night"
+        }
 }

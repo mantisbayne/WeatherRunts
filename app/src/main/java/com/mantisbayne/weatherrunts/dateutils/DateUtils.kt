@@ -7,6 +7,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -46,6 +47,29 @@ object DateUtils {
             }
 
             sdf.format(date ?: Date())
+        }
+    }
+
+    fun getHourOfDay(utcDateString: String, toLocalTime: Boolean = true): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val formatter = DateTimeFormatter.ISO_DATE_TIME
+            val utcTime = LocalDateTime.parse(utcDateString, formatter).atOffset(ZoneOffset.UTC)
+
+            val zonedDateTime = if (toLocalTime) {
+                utcTime.atZoneSameInstant(ZoneId.systemDefault())
+            } else {
+                utcTime.atZoneSameInstant(ZoneOffset.UTC)
+            }
+
+            zonedDateTime.hour
+        } else {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
+            inputFormat.timeZone = if (toLocalTime) TimeZone.getDefault() else TimeZone.getTimeZone("UTC")
+            val date = inputFormat.parse(utcDateString)
+            val calendar = Calendar.getInstance().apply {
+                time = date ?: Date()
+            }
+            calendar.get(Calendar.HOUR_OF_DAY)
         }
     }
 }
