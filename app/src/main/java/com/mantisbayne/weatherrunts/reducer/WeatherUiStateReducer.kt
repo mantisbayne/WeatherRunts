@@ -1,16 +1,11 @@
 package com.mantisbayne.weatherrunts.reducer
 
-import android.os.Build
+import com.mantisbayne.weatherrunts.dateutils.DateUtils
 import com.mantisbayne.weatherrunts.domain.WeatherDomainState
 import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.WeatherUiState
-import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 class WeatherUiStateReducer @Inject constructor() {
@@ -30,32 +25,24 @@ class WeatherUiStateReducer @Inject constructor() {
         CurrentWeatherDisplayable(
             feelsLikeText(feelsLike),
             temperature(temperature),
-            getCurrentTimeFormatted()
+            DateUtils.formatToLocalTime(shouldShowDayOfWeek = true)
         )
 
     private fun feelsLikeText(feelsLike: Int?) = feelsLike?.let {
-        "Feels like: $it°F"
+        "Feels like $it°F"
     } ?: "Unable to get feels like temperature, try again later"
 
     private fun temperature(temperature: Int?) = temperature?.let {
-        "Currently $it°F"
+        "$it°F"
     } ?: "Unable to get current temperature, try again later"
-
-    private fun getCurrentTimeFormatted(): String =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val currentTime = LocalTime.now()
-            val formatter = DateTimeFormatter.ofPattern("hh:mm a")
-            currentTime.format(formatter)
-        } else {
-            val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            sdf.format(Date())
-        }
 
     private fun weatherList(forecastList: List<Int>) =
         WeatherListDisplayable(
             items = forecastList.map {
                 ForecastDisplayable(
-                    time = getCurrentTimeFormatted(),
+                    time = DateUtils.formatToLocalTime(
+                        utcDateString = "2025-04-21T15:00"
+                    ),
                     temperature = "$it°F"
                 )
             }
