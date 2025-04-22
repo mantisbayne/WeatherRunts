@@ -15,13 +15,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.WeatherRuntsTheme
+import com.mantisbayne.weatherrunts.components.AppScreenLayout
 import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable
@@ -54,7 +58,10 @@ fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier) {
     ) {
         Box {
             Column {
-                Text(uiState.currentWeather.temperature)
+                Text(
+                    text = uiState.currentWeather.temperature,
+                    style = MaterialTheme.typography.titleLarge
+                )
                 Text(uiState.currentWeather.feelsLike)
             }
         }
@@ -81,7 +88,7 @@ fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier) {
                             .padding(16.dp)
                             .align(Alignment.CenterHorizontally),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Text(forecastItem.time)
                         Spacer(modifier.width(24.dp))
@@ -93,21 +100,37 @@ fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenContentPreview() {
+fun HomeScreenFullPreview() {
     WeatherRuntsTheme {
-        HomeScreenContent(
-            uiState = WeatherUiState(
-                currentWeather = CurrentWeatherDisplayable("72°F", "Feels like 70°F"),
-                weatherList = WeatherListDisplayable(
-                    items = listOf(
-                        ForecastDisplayable("8 AM", "65°F"),
-                        ForecastDisplayable("9 AM", "68°F")
+        AppScreenLayout(
+            topBar = {
+                TopAppBar(title = { Text("Weather Runts") })
+            }
+        ) {
+            HomeScreen(
+                uiState = WeatherUiState(
+                    loading = false,
+                    error = "",
+                    currentWeather = CurrentWeatherDisplayable(
+                        temperature = "72°F",
+                        feelsLike = "Feels like 70°F"
+                    ),
+                    weatherList = WeatherListDisplayable(
+                        items = listOf(
+                            ForecastDisplayable("8 AM", "65°F"),
+                            ForecastDisplayable("9 AM", "68°F"),
+                            ForecastDisplayable("10 AM", "70°F"),
+                            ForecastDisplayable("11 AM", "73°F")
+                        )
                     )
-                )
-            ),
-            modifier = Modifier
-        )
+                ),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+            )
+        }
     }
 }

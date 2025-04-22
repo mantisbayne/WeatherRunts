@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.paging.compose)
     implementation(libs.paging)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.ui.text.google.fonts)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
