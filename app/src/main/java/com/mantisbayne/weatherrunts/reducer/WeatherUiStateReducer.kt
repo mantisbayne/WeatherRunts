@@ -1,9 +1,9 @@
 package com.mantisbayne.weatherrunts.reducer
 
-import com.mantisbayne.weatherrunts.dateutils.DateUtils
+import com.mantisbayne.weatherrunts.utils.DateUtils
 import com.mantisbayne.weatherrunts.domain.ForecastItem
-import com.mantisbayne.weatherrunts.domain.TimeOfDay
 import com.mantisbayne.weatherrunts.domain.WeatherDomainState
+import com.mantisbayne.weatherrunts.utils.TimeOfDay
 import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable

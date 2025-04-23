@@ -12,6 +12,8 @@ data class WeatherResponse(
     val timezone: String,
     @SerialName("timezone_abbreviation") val timezoneAbbreviation: String,
     val elevation: Double,
+    @SerialName("current_units") val currentUnits: CurrentUnits,
+    val current: CurrentData,
     @SerialName("hourly_units") val hourlyUnits: HourlyUnits,
     val hourly: HourlyData
 )
@@ -30,4 +32,22 @@ data class HourlyData(
     @SerialName("precipitation_probability") val precipitationProbability: List<Int>,
     @SerialName("apparent_temperature") val apparentTemperature: List<Double>,
     @SerialName("temperature_2m") val temperature2m: List<Double>
+)
+
+@Serializable
+data class CurrentUnits(
+    val time: String,
+    val interval: String,
+    @SerialName("temperature_2m") val temperature2m: String,
+    @SerialName("apparent_temperature") val apparentTemperature: String,
+    val precipitation: String
+)
+
+@Serializable
+data class CurrentData(
+    val time: String,
+    val interval: Int,
+    @SerialName("temperature_2m") val temperature2m: Double,
+    @SerialName("apparent_temperature") val apparentTemperature: Double,
+    val precipitation: Double
 )

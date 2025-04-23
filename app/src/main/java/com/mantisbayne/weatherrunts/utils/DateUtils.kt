@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.dateutils
+package com.mantisbayne.weatherrunts.utils
 
 import android.os.Build
 import java.text.SimpleDateFormat

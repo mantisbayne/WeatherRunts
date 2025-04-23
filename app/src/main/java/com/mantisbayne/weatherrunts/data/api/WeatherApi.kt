@@ -10,6 +10,7 @@ interface WeatherApi {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("hourly") hourly: String = "precipitation_probability,apparent_temperature,temperature_2m",
+        @Query("current") current: String = "temperature_2m,apparent_temperature,precipitation",
         @Query("temperature_unit") tempUnit: String = "fahrenheit"
     ): WeatherResponse
 }
