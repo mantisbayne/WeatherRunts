@@ -16,12 +16,13 @@ class WeatherDomainStateReducer(private val timeOfDayMapper: TimeOfDayMapper) {
         )
         val currentFeelsLike = response.current.apparentTemperature.toInt()
         val currentTemperature = response.current.temperature2m.toInt()
-
+        val precipitationChance = response.current.precipitation.toInt()
 
         return WeatherDomainState.Success(
             mapToForecastDomainStateItem(tempToTimes),
             currentFeelsLike,
-            currentTemperature
+            currentTemperature,
+            precipitationChance
         )
     }
 

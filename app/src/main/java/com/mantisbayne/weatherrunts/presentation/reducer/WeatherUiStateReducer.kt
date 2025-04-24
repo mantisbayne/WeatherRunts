@@ -7,6 +7,7 @@ import com.mantisbayne.weatherrunts.presentation.model.ForecastDisplayable
 import com.mantisbayne.weatherrunts.presentation.model.WeatherListDisplayable
 import com.mantisbayne.weatherrunts.presentation.model.WeatherUiState
 import com.mantisbayne.weatherrunts.utils.DateFormatter
+import com.mantisbayne.weatherrunts.utils.OutfitMapper
 import com.mantisbayne.weatherrunts.utils.TimeOfDay
 import javax.inject.Inject
 
@@ -19,8 +20,13 @@ class WeatherUiStateReducer @Inject constructor(
             is WeatherDomainState.Error -> WeatherUiState(
                 error = errorMessage(domainState.errorMessage)
             )
+
             is WeatherDomainState.Success -> WeatherUiState(
-                currentWeather = currentWeather(domainState.feelsLike, domainState.temperature),
+                currentWeather = currentWeather(
+                    domainState.feelsLike,
+                    domainState.temperature,
+                    domainState.precipitation
+                ),
                 weatherList = weatherList(domainState.forecastList)
             )
         }
@@ -28,17 +34,20 @@ class WeatherUiStateReducer @Inject constructor(
     // TODO string resources
     private fun errorMessage(error: String?) = error ?: "An error occurred, please try again"
 
-    private fun currentWeather(feelsLike: Int?, temperature: Int?) =
+    // TODO handle error
+    private fun currentWeather(feelsLike: Int?, temperature: Int?, precipitation: Int) =
         CurrentWeatherDisplayable(
             feelsLikeText(feelsLike),
             temperature(temperature),
-            dateFormatter.formatToLocalTime(shouldShowDayOfWeek = true)
+            dateFormatter.formatToLocalTime(shouldShowDayOfWeek = true),
+            OutfitMapper.getOutfitAsset(temperature ?: 0, precipitation)
         )
 
     private fun feelsLikeText(feelsLike: Int?) = feelsLike?.let {
         "Feels like $it°F"
     } ?: "Unable to get feels like temperature, try again later"
 
+    // TODO error state
     private fun temperature(temperature: Int?) = temperature?.let {
         "$it°F"
     } ?: "Unable to get current temperature, try again later"

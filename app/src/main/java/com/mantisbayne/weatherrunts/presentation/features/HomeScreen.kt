@@ -129,7 +129,7 @@ fun HomeScreenContent(uiState: WeatherUiState, modifier: Modifier) {
                 }
                 Image(
                     modifier = Modifier.size(200.dp),
-                    painter = painterResource(R.drawable.girl_warm_weather),
+                    painter = painterResource(uiState.currentWeather.outfitImage),
                     contentDescription = "outfit"
                 )
             }

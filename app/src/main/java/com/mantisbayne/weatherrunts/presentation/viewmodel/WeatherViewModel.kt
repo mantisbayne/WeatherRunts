@@ -28,6 +28,7 @@ class WeatherViewModel @Inject constructor(
     private val reducer: WeatherUiStateReducer
 ) : ViewModel() {
 
+    // TODO events and effects
     private val _uiState = MutableStateFlow(WeatherUiState(loading = true))
     val uiState: StateFlow<WeatherUiState> = _uiState.asStateFlow()
 
