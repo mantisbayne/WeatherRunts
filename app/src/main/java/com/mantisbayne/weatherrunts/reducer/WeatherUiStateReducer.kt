@@ -1,8 +1,6 @@
 package com.mantisbayne.weatherrunts.reducer
 
 import com.mantisbayne.weatherrunts.utils.DateUtils
-import com.mantisbayne.weatherrunts.domain.ForecastItem
-import com.mantisbayne.weatherrunts.domain.WeatherDomainState
 import com.mantisbayne.weatherrunts.utils.TimeOfDay
 import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
 import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
@@ -12,13 +10,16 @@ import javax.inject.Inject
 
 class WeatherUiStateReducer @Inject constructor() {
 
-    fun reduce(domainState: WeatherDomainState): WeatherUiState = when {
-        domainState.error != null -> WeatherUiState(error = errorMessage(domainState.error))
-        else -> WeatherUiState(
-            currentWeather = currentWeather(domainState.feelsLike, domainState.temperature),
-            weatherList = weatherList(domainState.forecastList)
-        )
-    }
+    fun reduce(domainState: WeatherDomainState): WeatherUiState =
+        when (domainState) {
+            is WeatherDomainState.Error -> WeatherUiState(
+                error = errorMessage(domainState.errorMessage)
+            )
+            is WeatherDomainState.Success -> WeatherUiState(
+                currentWeather = currentWeather(domainState.feelsLike, domainState.temperature),
+                weatherList = weatherList(domainState.forecastList)
+            )
+        }
 
     // TODO string resources
     private fun errorMessage(error: String?) = error ?: "An error occurred, please try again"
