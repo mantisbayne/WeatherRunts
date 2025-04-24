@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.viewmodel
+package com.mantisbayne.weatherrunts.presentation.viewmodel
 
 import android.Manifest
 import android.content.Context
@@ -7,10 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.LocationServices
-import com.mantisbayne.weatherrunts.data.repository.WeatherRepository
-import com.mantisbayne.weatherrunts.data.model.WeatherResponse
-import com.mantisbayne.weatherrunts.domain.WeatherUseCase
-import com.mantisbayne.weatherrunts.reducer.WeatherUiStateReducer
+import com.mantisbayne.weatherrunts.domain.usecase.WeatherUseCase
+import com.mantisbayne.weatherrunts.presentation.model.WeatherUiState
+import com.mantisbayne.weatherrunts.presentation.reducer.WeatherUiStateReducer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

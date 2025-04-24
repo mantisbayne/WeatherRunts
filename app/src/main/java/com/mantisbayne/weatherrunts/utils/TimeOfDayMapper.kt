@@ -1,6 +1,6 @@
 package com.mantisbayne.weatherrunts.utils
 
-object TempUtils {
+class TimeOfDayMapper(private val dateFormatter: DateFormatter) {
 
     fun mapTempsToTimes(temperatures: List<Int>, times: List<String>) =
         mutableListOf<Pair<Int, String>>().apply {
@@ -29,7 +29,7 @@ object TempUtils {
     }
 
     private fun mapTempToTimeOfDay(tempToTime: Pair<Int, String>): Pair<TimeOfDay, Int> {
-        val hour = DateUtils.getHourOfDay(tempToTime.second)
+        val hour = dateFormatter.getHourOfDay(tempToTime.second)
 
         val timeOfDay = when (hour) {
             in 4..11 -> TimeOfDay.MORNING

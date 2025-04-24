@@ -1,14 +1,18 @@
-package com.mantisbayne.weatherrunts.reducer
+package com.mantisbayne.weatherrunts.presentation.reducer
 
-import com.mantisbayne.weatherrunts.utils.DateUtils
+import com.mantisbayne.weatherrunts.domain.model.ForecastDomainStateItem
+import com.mantisbayne.weatherrunts.domain.model.WeatherDomainState
+import com.mantisbayne.weatherrunts.presentation.model.CurrentWeatherDisplayable
+import com.mantisbayne.weatherrunts.presentation.model.ForecastDisplayable
+import com.mantisbayne.weatherrunts.presentation.model.WeatherListDisplayable
+import com.mantisbayne.weatherrunts.presentation.model.WeatherUiState
+import com.mantisbayne.weatherrunts.utils.DateFormatter
 import com.mantisbayne.weatherrunts.utils.TimeOfDay
-import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.WeatherUiState
 import javax.inject.Inject
 
-class WeatherUiStateReducer @Inject constructor() {
+class WeatherUiStateReducer @Inject constructor(
+    private val dateFormatter: DateFormatter
+) {
 
     fun reduce(domainState: WeatherDomainState): WeatherUiState =
         when (domainState) {
@@ -28,7 +32,7 @@ class WeatherUiStateReducer @Inject constructor() {
         CurrentWeatherDisplayable(
             feelsLikeText(feelsLike),
             temperature(temperature),
-            DateUtils.formatToLocalTime(shouldShowDayOfWeek = true)
+            dateFormatter.formatToLocalTime(shouldShowDayOfWeek = true)
         )
 
     private fun feelsLikeText(feelsLike: Int?) = feelsLike?.let {
@@ -39,7 +43,7 @@ class WeatherUiStateReducer @Inject constructor() {
         "$it°F"
     } ?: "Unable to get current temperature, try again later"
 
-    private fun weatherList(forecastList: List<ForecastItem>) =
+    private fun weatherList(forecastList: List<ForecastDomainStateItem>) =
         WeatherListDisplayable(
             items = forecastList.map {
                 ForecastDisplayable(

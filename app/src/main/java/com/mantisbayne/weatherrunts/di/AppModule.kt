@@ -3,7 +3,10 @@ package com.mantisbayne.weatherrunts.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mantisbayne.weatherrunts.data.api.WeatherApi
 import com.mantisbayne.weatherrunts.data.repository.WeatherRepository
-import com.mantisbayne.weatherrunts.domain.WeatherUseCase
+import com.mantisbayne.weatherrunts.domain.reducer.WeatherDomainStateReducer
+import com.mantisbayne.weatherrunts.domain.usecase.WeatherUseCase
+import com.mantisbayne.weatherrunts.utils.DateFormatter
+import com.mantisbayne.weatherrunts.utils.TimeOfDayMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,7 +53,28 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherUseCase(repository: WeatherRepository): WeatherUseCase {
-        return WeatherUseCase(repository)
+    fun provideDateFormatter(): DateFormatter {
+        return DateFormatter()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTimeOfDayMapper(dateFormatter: DateFormatter): TimeOfDayMapper {
+        return TimeOfDayMapper(dateFormatter)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDomainStateReducer(timeOfDayMapper: TimeOfDayMapper): WeatherDomainStateReducer {
+        return WeatherDomainStateReducer(timeOfDayMapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherUseCase(
+        domainStateReducer: WeatherDomainStateReducer,
+        repository: WeatherRepository
+    ): WeatherUseCase {
+        return WeatherUseCase(domainStateReducer, repository)
     }
 }

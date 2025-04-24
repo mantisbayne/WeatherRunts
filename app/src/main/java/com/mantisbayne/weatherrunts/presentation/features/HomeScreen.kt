@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.home
+package com.mantisbayne.weatherrunts.presentation.features
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -25,7 +25,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -40,12 +39,12 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.WeatherRuntsTheme
 import com.mantisbayne.weatherrunts.R
-import com.mantisbayne.weatherrunts.components.AppScreenLayout
-import com.mantisbayne.weatherrunts.viewmodel.CurrentWeatherDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.ForecastDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.WeatherListDisplayable
-import com.mantisbayne.weatherrunts.viewmodel.WeatherUiState
-import com.mantisbayne.weatherrunts.viewmodel.WeatherViewModel
+import com.mantisbayne.weatherrunts.presentation.model.WeatherUiState
+import com.mantisbayne.weatherrunts.presentation.viewmodel.WeatherViewModel
+import com.mantisbayne.weatherrunts.presentation.model.CurrentWeatherDisplayable
+import com.mantisbayne.weatherrunts.presentation.model.ForecastDisplayable
+import com.mantisbayne.weatherrunts.presentation.model.WeatherListDisplayable
+import com.mantisbayne.weatherrunts.ui.components.AppScreenLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

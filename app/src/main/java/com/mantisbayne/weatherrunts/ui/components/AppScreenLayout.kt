@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.components
+package com.mantisbayne.weatherrunts.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.viewmodel
+package com.mantisbayne.weatherrunts.presentation.model
 
 data class WeatherUiState(
     val error: String = "",

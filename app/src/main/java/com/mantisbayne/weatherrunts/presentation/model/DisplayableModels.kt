@@ -1,4 +1,4 @@
-package com.mantisbayne.weatherrunts.viewmodel
+package com.mantisbayne.weatherrunts.presentation.model
 
 import androidx.annotation.DrawableRes
 import com.mantisbayne.weatherrunts.R
