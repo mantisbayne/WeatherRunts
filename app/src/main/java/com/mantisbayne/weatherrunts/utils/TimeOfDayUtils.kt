@@ -11,10 +11,10 @@ object TempUtils {
 
     fun mapTempsToTimeOfDay(tempToTimes: List<Pair<Int, String>>): Map<TimeOfDay, MutableList<Int>> {
         val timeOfDayToTemps = linkedMapOf<TimeOfDay, MutableList<Int>>(
-            TimeOfDay.MORNING to mutableListOf(),
-            TimeOfDay.MIDDAY to mutableListOf(),
-            TimeOfDay.EVENING to mutableListOf(),
-            TimeOfDay.NIGHT to mutableListOf()
+//            TimeOfDay.MORNING to mutableListOf(),
+//            TimeOfDay.MIDDAY to mutableListOf(),
+//            TimeOfDay.EVENING to mutableListOf(),
+//            TimeOfDay.NIGHT to mutableListOf()
         )
 
         tempToTimes.map {
