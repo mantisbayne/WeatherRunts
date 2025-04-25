@@ -1,37 +1,29 @@
 package com.mantisbayne.weatherrunts.notifications
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.core.app.NotificationCompat
-import com.mantisbayne.weatherrunts.R
+import com.mantisbayne.weatherrunts.di.AppModule.ApplicationScope
+import com.mantisbayne.weatherrunts.domain.usecase.NotificationUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class NotificationReceiver @Inject constructor() : BroadcastReceiver() {
+class NotificationReceiver @Inject constructor(
+    private val notificationBuilder: NotificationBuilder,
+    private val useCase: NotificationUseCase,
+    @ApplicationScope private val scope: CoroutineScope
+) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        val channelId = "daily_reminder_channel"
-        val notificationManager =
-            context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        // TODO handle fallback
+        val latitude = intent?.getDoubleExtra("latitude", 0.0) ?: 0.0
+        val longitude = intent?.getDoubleExtra("longitude", 0.0) ?: 0.0
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Daily Reminder",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        // TODO make configurable
-        val notification = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // TODO image
-            .setContentText("Here's your 6AM reminder ☀️") // TODO outfit, vector image
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-
-        notificationManager.notify(1001, notification)
+        useCase.getWeatherDataForNotification(latitude, longitude)
+            .onEach { content ->
+                notificationBuilder.showNotification(content)
+            }
+            .launchIn(scope)
     }
 }

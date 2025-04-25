@@ -7,7 +7,6 @@ import com.mantisbayne.weatherrunts.utils.TimeOfDayMapper
 
 class WeatherDomainStateReducer(private val timeOfDayMapper: TimeOfDayMapper) {
 
-    // TODO map to success error in repo
     fun reduceSuccess(response: WeatherResponse): WeatherDomainState {
 
         val tempToTimes = timeOfDayMapper.mapTempsToTimes(

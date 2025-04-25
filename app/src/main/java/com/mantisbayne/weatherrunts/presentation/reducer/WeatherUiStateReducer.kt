@@ -12,7 +12,8 @@ import com.mantisbayne.weatherrunts.utils.TimeOfDay
 import javax.inject.Inject
 
 class WeatherUiStateReducer @Inject constructor(
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: DateFormatter,
+    private val outfitMapper: OutfitMapper
 ) {
 
     fun reduce(domainState: WeatherDomainState): WeatherUiState =
@@ -20,7 +21,6 @@ class WeatherUiStateReducer @Inject constructor(
             is WeatherDomainState.Error -> WeatherUiState(
                 error = errorMessage(domainState.errorMessage)
             )
-
             is WeatherDomainState.Success -> WeatherUiState(
                 currentWeather = currentWeather(
                     domainState.feelsLike,
@@ -29,6 +29,7 @@ class WeatherUiStateReducer @Inject constructor(
                 ),
                 weatherList = weatherList(domainState.forecastList)
             )
+            else -> WeatherUiState(loading = true)
         }
 
     // TODO string resources
@@ -40,7 +41,7 @@ class WeatherUiStateReducer @Inject constructor(
             feelsLikeText(feelsLike),
             temperature(temperature),
             dateFormatter.formatToLocalTime(shouldShowDayOfWeek = true),
-            OutfitMapper.getOutfitAsset(temperature ?: 0, precipitation)
+            outfitMapper.getOutfitDisplayable(temperature ?: 0, precipitation).image
         )
 
     private fun feelsLikeText(feelsLike: Int?) = feelsLike?.let {

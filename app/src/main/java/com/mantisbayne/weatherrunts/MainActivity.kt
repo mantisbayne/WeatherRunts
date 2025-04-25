@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.compose.WeatherRuntsTheme
-import com.mantisbayne.weatherrunts.presentation.features.WeatherApp
 import com.mantisbayne.weatherrunts.notifications.NotificationUtil.scheduleAlarm
 import dagger.hilt.android.AndroidEntryPoint
 

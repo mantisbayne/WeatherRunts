@@ -11,4 +11,6 @@ sealed class WeatherDomainState {
     data class Error(
         val errorMessage: String = ""
     ) : WeatherDomainState()
+
+    data object Loading : WeatherDomainState()
 }

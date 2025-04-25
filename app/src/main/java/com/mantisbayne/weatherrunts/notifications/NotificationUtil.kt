@@ -8,7 +8,6 @@ import java.util.Calendar
 
 object NotificationUtil {
 
-    // TODO make configurable
     fun scheduleAlarm(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -20,13 +19,14 @@ object NotificationUtil {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val now = Calendar.getInstance()
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 6)
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 11)
+            set(Calendar.MINUTE, 14)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            if (before(Calendar.getInstance())) {
+            if (before(now)) {
                 add(Calendar.DATE, 1)
             }
         }
@@ -38,5 +38,4 @@ object NotificationUtil {
             pendingIntent
         )
     }
-
 }
